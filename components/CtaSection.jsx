@@ -2,7 +2,7 @@
 
 import { Download } from "lucide-react";
 
-const CTASection = ({ onContactOpen, onBrochureOpen }) => {
+const CtaSection = ({ onContactOpen, onBrochureOpen }) => {
   return (
     <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 text-white py-20 text-center px-4 rounded-lg">
       <h2 className="text-3xl md:text-5xl font-bold mb-4">
@@ -30,4 +30,4 @@ const CTASection = ({ onContactOpen, onBrochureOpen }) => {
   );
 };
 
-export default CTASection;
+export default CtaSection;
