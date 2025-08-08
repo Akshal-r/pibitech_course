@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
       >
         {children}
       </body>
-      <link rel="icon" href="/Images/pibitechlogo.png"></link>
+      <link rel="icon" href="/images/pibitechlogo.png"></link>
     </html>
   );
 }
