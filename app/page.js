@@ -8,6 +8,7 @@ import Curriculum from "@/components/Curriculam";
 import Details from "@/components/Details";
 import ContactModel from "@/components/ContactModel";
 import BrochureForm from "@/components/BrochureForm";
+import CtaSection from "@/components/CTASection";
 
 export default function Home() {
   const [isContactOpen, setContactOpen] = useState(false);
@@ -33,6 +34,7 @@ export default function Home() {
           isOpen={isBrochureOpen}
           onClose={() => setBrochureOpen(false)}
         />
+        <CtaSection />
       </main>
     </div>
   );
