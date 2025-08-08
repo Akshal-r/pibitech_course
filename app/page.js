@@ -34,7 +34,10 @@ export default function Home() {
           isOpen={isBrochureOpen}
           onClose={() => setBrochureOpen(false)}
         />
-        <CtaSection />
+        <CtaSection
+          onContactOpen={() => setContactOpen(true)}
+          onBrochureOpen={() => setBrochureOpen(true)}
+        />
       </main>
     </div>
   );
