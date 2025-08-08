@@ -41,16 +41,6 @@ export default function Navbar() {
           <a href="#details" className="hover:text-blue-600">
             Details
           </a>
-          <button
-            onClick={toggleTheme}
-            className="hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded"
-          >
-            {theme === "dark" ? (
-              <Sun className="w-5 h-5" />
-            ) : (
-              <Moon className="w-5 h-5" />
-            )}
-          </button>
         </div>
 
         <div className="md:hidden flex items-center">
