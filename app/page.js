@@ -8,7 +8,7 @@ import Curriculum from "@/components/Curriculam";
 import Details from "@/components/Details";
 import ContactModel from "@/components/ContactModel";
 import BrochureForm from "@/components/BrochureForm";
-import CtaSection from "@/components/CTASection";
+import CtaSection from "@/components/CtaSection";
 
 export default function Home() {
   const [isContactOpen, setContactOpen] = useState(false);
