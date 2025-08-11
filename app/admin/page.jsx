@@ -17,9 +17,10 @@ const AdminPanel = () => {
   const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME || "admin";
   const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123";
 
-  const STUDENTS_URL = "https://pibitech-backend.onrender.com/students";
-  const BROCHURE_URL = "https://pibitech-backend.onrender.com/downloads";
-  const COURSES_URL = "https://pibitech-backend.onrender.com/courses";
+  const BASE_URL = "https://pibitech-backend.onrender.com";
+  const STUDENTS_URL = `${BASE_URL}/students`;
+  const BROCHURE_URL = `${BASE_URL}/downloads`;
+  const COURSES_URL = `${BASE_URL}/courses`;
 
   const fetchData = async () => {
     try {
@@ -28,6 +29,11 @@ const AdminPanel = () => {
         axios.get(BROCHURE_URL),
         axios.get(COURSES_URL),
       ]);
+
+      console.log("Fetched Students:", studentsRes.data);
+      console.log("Fetched Brochures:", brochureRes.data);
+      console.log("Fetched Courses:", courseRes.data);
+
       setStudents(studentsRes.data);
       setBrochures(brochureRes.data);
       setCourses(courseRes.data);
@@ -36,13 +42,19 @@ const AdminPanel = () => {
     }
   };
 
+  // Automatically fetch when logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchData();
+    }
+  }, [isLoggedIn]);
+
   const handleLogin = () => {
     if (
       loginData.username === ADMIN_USERNAME &&
       loginData.password === ADMIN_PASSWORD
     ) {
       setIsLoggedIn(true);
-      fetchData();
     } else {
       alert("Invalid credentials");
     }
@@ -121,6 +133,7 @@ const AdminPanel = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
       <div className="w-64 bg-white shadow-md p-4 border-r">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
         <ul className="space-y-3">
@@ -157,6 +170,7 @@ const AdminPanel = () => {
         </ul>
       </div>
 
+      {/* Main Content */}
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-semibold mb-6">Welcome Admin</h1>
 
@@ -164,64 +178,52 @@ const AdminPanel = () => {
           <section>
             <h2 className="text-xl font-semibold mb-4">Registered Students</h2>
             {students.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm border">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="px-4 py-2 border">Name</th>
-                      <th className="px-4 py-2 border">Email</th>
-                      <th className="px-4 py-2 border">Phone</th>
+              <table className="min-w-full text-sm border">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="px-4 py-2 border">Name</th>
+                    <th className="px-4 py-2 border">Email</th>
+                    <th className="px-4 py-2 border">Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {students.map((s, i) => (
+                    <tr key={i} className="hover:bg-gray-50 text-center">
+                      <td className="px-4 py-2 border">{s.name}</td>
+                      <td className="px-4 py-2 border">{s.email}</td>
+                      <td className="px-4 py-2 border">{s.phone || "-"}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {students.map((student, index) => (
-                      <tr key={index} className="hover:bg-gray-50 text-center">
-                        <td className="px-4 py-2 border">{student.name}</td>
-                        <td className="px-4 py-2 border">{student.email}</td>
-                        <td className="px-4 py-2 border">
-                          {student.phone || "-"}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             ) : (
-              <p className="text-gray-500 text-sm">
-                No students registered yet.
-              </p>
+              <p>No students registered yet.</p>
             )}
           </section>
         )}
 
         {selectedTab === "brochures" && (
           <section>
-            <h2 className="text-xl font-semibold mb-4">
-              Brochure Downloads List
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Brochure Downloads</h2>
             {brochures.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm border">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="px-4 py-2 border">Name</th>
-                      <th className="px-4 py-2 border">Email</th>
+              <table className="min-w-full text-sm border">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="px-4 py-2 border">Name</th>
+                    <th className="px-4 py-2 border">Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {brochures.map((b, i) => (
+                    <tr key={i} className="hover:bg-gray-50 text-center">
+                      <td className="px-4 py-2 border">{b.name}</td>
+                      <td className="px-4 py-2 border">{b.email}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {brochures.map((b, i) => (
-                      <tr key={i} className="hover:bg-gray-50 text-center">
-                        <td className="px-4 py-2 border">{b.name}</td>
-                        <td className="px-4 py-2 border">{b.email}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             ) : (
-              <p className="text-gray-500 text-sm">
-                No brochures downloaded yet.
-              </p>
+              <p>No brochures downloaded yet.</p>
             )}
           </section>
         )}
@@ -243,35 +245,32 @@ const AdminPanel = () => {
               className="border p-2 mb-4 w-full"
               rows={3}
             />
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2">Modules</h3>
-              {modules.map((mod, idx) => (
-                <div key={idx} className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    placeholder={`Module ${idx + 1}`}
-                    className="border p-2 flex-1"
-                    value={mod}
-                    onChange={(e) => handleModuleChange(idx, e.target.value)}
-                  />
-                  <button
-                    onClick={() => removeModule(idx)}
-                    className="text-red-600 font-bold"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-              <button
-                onClick={addModule}
-                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-              >
-                + Add Module
-              </button>
-            </div>
+            {modules.map((mod, idx) => (
+              <div key={idx} className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  placeholder={`Module ${idx + 1}`}
+                  className="border p-2 flex-1"
+                  value={mod}
+                  onChange={(e) => handleModuleChange(idx, e.target.value)}
+                />
+                <button
+                  onClick={() => removeModule(idx)}
+                  className="text-red-600 font-bold"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            <button
+              onClick={addModule}
+              className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+            >
+              + Add Module
+            </button>
             <button
               onClick={handleAddCourse}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full"
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full mt-4"
             >
               Submit Course
             </button>
