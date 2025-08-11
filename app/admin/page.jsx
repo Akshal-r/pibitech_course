@@ -208,6 +208,7 @@ const AdminPanel = () => {
                   <tr>
                     <th className="px-4 py-2 border">Name</th>
                     <th className="px-4 py-2 border">Email</th>
+                    <th className="px-4 py-2 border">Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -215,6 +216,7 @@ const AdminPanel = () => {
                     <tr key={i} className="hover:bg-gray-50 text-center">
                       <td className="px-4 py-2 border">{b.name}</td>
                       <td className="px-4 py-2 border">{b.email}</td>
+                      <td className="px-4 py-2 border">{b.time}</td>
                     </tr>
                   ))}
                 </tbody>
