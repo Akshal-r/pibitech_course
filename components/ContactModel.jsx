@@ -3,6 +3,8 @@
 import { useState, forwardRef } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -13,7 +15,7 @@ const Input = forwardRef(({ className, type = "text", ...props }, ref) => (
     type={type}
     ref={ref}
     className={cn(
-      "flex h-10 w-full rounded-md  bg-background px-3 py-2 text-base  placeholder:text-muted-foreground focus:outline-none border-gray-400 hover:border-blue-900 border-2",
+      "flex h-10 w-full rounded-md bg-background px-3 py-2 text-base placeholder:text-muted-foreground focus:outline-none border-gray-400 hover:border-blue-900 border-2",
       className
     )}
     {...props}
@@ -30,7 +32,6 @@ const Label = forwardRef(({ className, ...props }, ref) => (
 ));
 Label.displayName = "Label";
 
-// Dialog
 const Dialog = DialogPrimitive.Root;
 const DialogOverlay = forwardRef(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
@@ -83,7 +84,6 @@ const DialogTitle = forwardRef(({ className, ...props }, ref) => (
 ));
 DialogTitle.displayName = "DialogTitle";
 
-// Contact Modal
 const ContactModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -103,13 +103,13 @@ const ContactModal = ({ isOpen, onClose }) => {
     const { name, email, phone } = formData;
 
     if (!name || !email || !phone) {
-      alert("All fields are required");
+      toast.error("All fields are required");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert("Invalid email format");
+      toast.error("Invalid email format");
       return;
     }
 
@@ -126,7 +126,7 @@ const ContactModal = ({ isOpen, onClose }) => {
       const result = await response.json();
 
       if (response.ok) {
-        alert("Thank you! Brochure download will start now.");
+        toast.success("Thank you! Brochure download will start now.");
 
         const brochureUrl = "/AI Product Developer Certification Program.pdf";
         const link = document.createElement("a");
@@ -139,10 +139,10 @@ const ContactModal = ({ isOpen, onClose }) => {
         setFormData({ name: "", email: "", phone: "" });
         onClose();
       } else {
-        alert(result.error || result.message || "Submission failed.");
+        toast.error(result.error || result.message || "Submission failed.");
       }
     } catch (error) {
-      alert("Network error. Please try again.");
+      toast.error("Network error. Please try again.");
     }
   };
 
