@@ -216,7 +216,11 @@ const AdminPanel = () => {
                     <tr key={i} className="hover:bg-gray-50 text-center">
                       <td className="px-4 py-2 border">{b.name}</td>
                       <td className="px-4 py-2 border">{b.email}</td>
-                      <td className="px-4 py-2 border">{b.time}</td>
+                      <td className="px-4 py-2 border">
+                        {b.downloaded_at
+                          ? new Date(b.downloaded_at).toLocaleString()
+                          : "-"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
