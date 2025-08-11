@@ -42,7 +42,6 @@ const AdminPanel = () => {
     }
   };
 
-  // Automatically fetch when logged in
   useEffect(() => {
     if (isLoggedIn) {
       fetchData();
@@ -133,7 +132,6 @@ const AdminPanel = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
       <div className="w-64 bg-white shadow-md p-4 border-r">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
         <ul className="space-y-3">
@@ -170,7 +168,6 @@ const AdminPanel = () => {
         </ul>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-semibold mb-6">Welcome Admin</h1>
 
