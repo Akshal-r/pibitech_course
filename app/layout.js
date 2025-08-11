@@ -25,12 +25,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <>
-          {children}
-          <ToastContainer position="top-right" autoClose={3000} />
-        </>
+        <ToastContainer position="top-right" autoClose={3000} />
       </body>
-      <link rel="icon" href="/images/pibitechlogo.png"></link>
+      <link rel="icon" href="/images/pibitechlogo.png" />
     </html>
   );
 }
